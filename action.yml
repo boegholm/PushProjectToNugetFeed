@@ -13,7 +13,6 @@ runs:
   steps:
   - name: pack
     run: |
-      export
       if [[ "${{ inputs.version }}" == "" ]]; then version="${{ env.GitBuildVersionSimple }}"; echo "unset version set:$version"; else version="${{ inputs.version }}";echo version set; fi;
       dotnet pack ${{ inputs.project }}/${{ inputs.project }}.csproj --include-source --include-symbols -p:PackageVersion=${{ inputs.version }} --output nupkgs -p:SymbolPackageFormat=snupkg
       dotnet nuget push ./nupkgs/*.nupkg --skip-duplicate -k ${{ env.NUGET_KEY }}  -s ${{ env.NUGET_SOURCE }}
