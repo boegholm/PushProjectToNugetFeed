@@ -10,4 +10,5 @@ echo "$projectjson" | jq '.[]' | while read project; do
       dotnet pack "$project" --include-source --include-symbols -p:PackageVersion="$inputs" --output nupkgs -p:SymbolPackageFormat=snupkg
       dotnet nuget push ./nupkgs/*.nupkg --skip-duplicate -k $NUGET_KEY -s $NUGET_SOURCE
       dotnet nuget push ./nupkgs/*.snupkg --skip-duplicate -k $NUGET_KEY -s $NUGET_SYM_SOURCE
+      rm ./nupkgs/*.nupkg ./nupkgs/*.snupkg
 done
