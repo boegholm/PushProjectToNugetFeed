@@ -1,11 +1,21 @@
 name: NugetPush
 description: Push to nuget.
 inputs:
-  project:
+  projects:
     required: true
     type: string
+    description: json array of csproj paths relative to sln
   version:
     required: false
+    type: string
+  NUGET_SOURCE:
+    required: true
+    type: string
+  NUGET_KEY:
+    required: true
+    type: string
+  NUGET_SYM_SOURCE:
+    required: true
     type: string
 
 runs:
@@ -14,7 +24,5 @@ runs:
   - name: pack
     run: |
       if [[ "${{ inputs.version }}" == "" ]]; then version="${{ env.GitBuildVersionSimple }}"; echo "unset version set:$version"; else version="${{ inputs.version }}";echo version set; fi;
-      dotnet pack ${{ inputs.project }}/${{ inputs.project }}.csproj --include-source --include-symbols -p:PackageVersion=${{ inputs.version }} --output nupkgs -p:SymbolPackageFormat=snupkg
-      dotnet nuget push ./nupkgs/*.nupkg --skip-duplicate -k ${{ env.NUGET_KEY }}  -s ${{ env.NUGET_SOURCE }}
-      dotnet nuget push ./nupkgs/*.snupkg --skip-duplicate -k ${{ env.NUGET_KEY }} -s ${{ env.NUGET_SYM_SOURCE }}
+      ./pack_and_push.sh "${{ inputs.projects }}" "$version" "${{ inputs.NUGET_KEY }}" ${{ inputs.NUGET_SOURCE }} ${{ inputs.NUGET_SYM_SOURCE }}
     shell: bash    
