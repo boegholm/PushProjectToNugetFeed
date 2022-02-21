@@ -3,7 +3,7 @@
 projectjson="$1"
 version="$2"
 NUGET_KEY="$3"
-NUGET_SOURCE"$4"
+NUGET_SOURCE="$4"
 NUGET_SYM_SOURCE="$5"
 
 echo "$projectjson" | jq '.[]' | while read project; do
