@@ -8,7 +8,7 @@ NUGET_SYM_SOURCE="$5"
 echo Packing projects: "$projectjson"
 echo "$projectjson" |sed "s/'/\"/g" | jq -r '.[]' | while read project; do
       echo "Pack project: $project"
-      dotnet pack "$project" --include-source --include-symbols -p:PackageVersion="$inputs" --output nupkgs -p:SymbolPackageFormat=snupkg
+      dotnet pack "$project" --include-source --include-symbols -p:PackageVersion="$version" --output nupkgs -p:SymbolPackageFormat=snupkg
       echo pushing
       dotnet nuget push ./nupkgs/*.nupkg --skip-duplicate -k $NUGET_KEY -s $NUGET_SOURCE
       dotnet nuget push ./nupkgs/*.snupkg --skip-duplicate -k $NUGET_KEY -s $NUGET_SYM_SOURCE
