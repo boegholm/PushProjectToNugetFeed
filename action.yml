@@ -23,6 +23,6 @@ runs:
   steps:
   - name: pack
     run: |
-      if [[ "${{ inputs.version }}" == "" ]]; then version="${{ env.GitBuildVersionSimple }}"; echo "unset version set:$version"; else version="${{ inputs.version }}";echo version set; fi;
+      if [[ "${{ inputs.version }}" == "" ]]; then version="${{ env.GitAssemblyInformationalVersion }}"; echo "unset version set:$version"; else version="${{ inputs.version }}";echo version set; fi;
       ${{ github.action_path }}/pack_and_push.sh "${{ inputs.projects }}" "$version" "${{ inputs.NUGET_KEY }}" ${{ inputs.NUGET_SOURCE }} ${{ inputs.NUGET_SYM_SOURCE }}
     shell: bash    
