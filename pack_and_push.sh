@@ -12,7 +12,7 @@ echo "$projectjson" |sed "s/'/\"/g" | jq -r '.[]' | while read project; do
       echo pushing
       dotnet nuget push ./nupkgs/*.nupkg --skip-duplicate -k $NUGET_KEY -s $NUGET_SOURCE
       dotnet nuget push ./nupkgs/*.snupkg --skip-duplicate -k $NUGET_KEY -s $NUGET_SYM_SOURCE
-      echo removing pushed"
+      echo "removing pushed packages"
       rm ./nupkgs/*.nupkg ./nupkgs/*.snupkg
       echo removed, done
 done
