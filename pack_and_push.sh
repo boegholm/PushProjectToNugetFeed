@@ -5,10 +5,11 @@ version="$2"
 NUGET_KEY="$3"
 NUGET_SOURCE="$4"
 NUGET_SYM_SOURCE="$5"
+PUB="$6"
 echo Packing projects: "$projectjson"
 echo "$projectjson" |sed "s/'/\"/g" | jq -r '.[]' | while read project; do
       echo "Pack project: $project"
-      dotnet pack "$project" --include-source --include-symbols -p:PackageVersion="$version" --output nupkgs -p:SymbolPackageFormat=snupkg -p:PublicRelease=true
+      dotnet pack "$project" --include-source --include-symbols -p:PackageVersion="$version" --output nupkgs -p:SymbolPackageFormat=snupkg -p:PublicRelease="$PUB"
       echo pushing
       dotnet nuget push ./nupkgs/*.nupkg --skip-duplicate -k $NUGET_KEY -s $NUGET_SOURCE
       dotnet nuget push ./nupkgs/*.snupkg --skip-duplicate -k $NUGET_KEY -s $NUGET_SYM_SOURCE
